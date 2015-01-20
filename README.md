@@ -1,9 +1,9 @@
 # Introduction
 
 The purpose of this repository is to share my `Dockerfile` for running
-[Qira](https://github.com/BinaryAnalysisPlatform/qira) in a docker container. It
+[Qira](https://github.com/BinaryAnalysisPlatform/qira) in a Docker container. It
 is specific to my workflow, but I feel that it is general enough and hopefully
-well-written enough for anyone wishing to docker-ize Qira to base their own
+well-written enough for anyone wishing to Docker-ize Qira to base their own
 `Dockerfile` on this.
 
 The following files in the repository require some explanations:
@@ -20,7 +20,7 @@ https://www.hex-rays.com/products/ida/support/download_demo.shtml. (At work we
 have properly licensed IDA, but in this repo I am pointing you to the demo.)
 
 * `phraseless_rsa2.pub` is supposed to be a phraseless ssh public key. It is
-intended to be inserted into the docker container for `docker-ssh` and alike.
+intended to be inserted into the Docker container for `docker-ssh` and alike.
 The file in this repo is again empty on purpose.
 
 __Note:__ I use the `git update-index --assume-unchanged foo` trick on these two
@@ -41,15 +41,15 @@ In the above command line, `qira` is the name of the image ("repository") and
 
 ## Starting the Container
 
-To start the docker container containing Qira while mapping the host port
+To start the Docker container containing Qira while mapping the host port
 `12345` to the container port `3002` (the default http port in Qira), run:
 
 ```bash
-$ docker run -d -p 12345:3002 qira:1217
+$ docker run --privileged -d -p 12345:3002 qira:1217
 ```
 
-The container ID will be printed on the terminal. In this example, let's say it
-is `9098ec1d03bf699331f9db736a9eb80da7afd33a8ed50a5f3c40d79fe034d18a`.
+The container ID will be printed on the terminal. In this example, let's say the
+ID is `9098ec1d03bf699331f9db736a9eb80da7afd33a8ed50a5f3c40d79fe034d18a`.
 
 ## Entering the Container
 
@@ -95,7 +95,8 @@ where `12345` is your chosen host port when you start the container.
 
 ## Stopping the Container
 
-After you are done with a docker container, you can kill it by:
+After you are done with a Docker container, you can kill it by `docker rm`. With
+our example, this would be:
 
 ```bash
 $ docker rm -f 9098
@@ -110,18 +111,18 @@ $ docker rm -f $(docker ps -a -q)
 ## Updating the Docker Image
 
 Our `Dockerfile` has been written such that the more stable steps are executed
-earlier to take advantage of the AUFS cache of docker. To generate an updated
+earlier to take advantage of the AUFS cache of Docker. To generate an updated
 image based on the latest Qira, you pump the date in the `echo` command
-associated with `git pull`. This will force docker to perform the pull, and if
-the pull brings new code, then docker will re-execute the steps that follow the
+associated with `git pull`. This will force Docker to perform the pull, and if
+the pull brings new code, then Docker will re-execute the steps that follow the
 pull.
 
 For example, suppose we have built an image on `1217` and we want to get an
 updated image on `0118`, we perform:
 
 ```bash
-$ #edit Dockerfile to pump pull date to 2015-01-18
-$ docker build -t qira:0118 .
+$ #manually edit Dockerfile to pump pull date to 2015-01-19
+$ docker build -t qira:0119 .
 ```
 
 After we have obtained the new image, we can erase the old one to reclaim space:
