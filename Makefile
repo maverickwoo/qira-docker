@@ -3,10 +3,10 @@ TAG = $(shell date +%m%d)
 all: help
 
 build:
-	docker build -t qira:$(TAG) .
+	docker build -t archlinux-qira .
 
 run:
-	docker run --privileged -d -p 12345:3002 qira:1217
+	docker run --privileged -d -p 12345:3002 --name qira archlinux-qira
 
 enter:
 	sh docker-ssh 9098
@@ -19,6 +19,5 @@ download:
 help:
 	echo "Usage: make <build|run|enter|download|help>"
 
-
-.PHONY: build run enter help
-.SILENT: build run enter help
+.PHONY: all build run enter help
+.SILENT: all build run enter help
