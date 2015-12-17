@@ -6,10 +6,10 @@ IP=
 
 usage()
 {
-	echo "Usage: docker-ssh <CONTAINER_ID> [COMMAND...]"
+    echo "Usage: docker-ssh <CONTAINER_ID> [COMMAND...]"
 	echo "Login to a Baseimage-based Docker container using SSH." \
-		"If COMMAND is not given, opens an interactive shell." \
-		"Otherwise, runs COMMAND inside the container."
+		 "If COMMAND is not given, opens an interactive shell." \
+		 "Otherwise, runs COMMAND inside the container."
 }
 
 cleanup()
@@ -74,8 +74,13 @@ then
 	if test $# = 0; then
 		echo "----------------"
 		echo "It appears that login to the Docker container failed. This could be caused by the following reasons:"
-		echo "- The Docker container you're trying to login to is not based on Baseimage-docker. The docker-ssh tool only works with Baseimage-docker-based containers."
-		echo "- You did not enable the the insecure key inside the container. Please read https://github.com/phusion/baseimage-docker/blob/master/README.md#login to learn how to enable the insecure key."
+        echo
+		echo "- The Docker container you're trying to login to is not based on Baseimage-docker. The docker-ssh tool"
+        echo "  only works with Baseimage-docker-based containers."
+        echo
+		echo "- You did not enable the the insecure key inside the container. To enable the insecure key please visit:"
+        echo "  https://github.com/phusion/baseimage-docker/blob/master/README.md#login"
+        echo
 	fi
 	exit $STATUS
 fi
