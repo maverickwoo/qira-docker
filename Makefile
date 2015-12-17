@@ -1,4 +1,7 @@
 TAG = $(shell date +%m%d)
+KEY = baseimage_docker_insecure_key
+IMGURL = https://github.com/phusion/baseimage-docker/archive/master.tar.gz
+IDAURL = https://out7.hex-rays.com/files/idademo68_linux.tgz
 
 all: help
 
@@ -12,8 +15,8 @@ enter:
 	sh docker-ssh 9098
 
 download:
-	curl -k -L -o idademo_linux.tgz https://out7.hex-rays.com/files/idademo68_linux.tgz
-	curl -k -L https://github.com/phusion/baseimage-docker/archive/master.tar.gz | tar xzf - && rm .baseimage_docker_insecure_key && mv baseimage-docker-master .baseimage_docker_insecure_key
+	curl -k -L -o idademo_linux.tgz $(IDAURL)
+	curl -k -L $(IMGURL) | tar xzf - && rm .$(KEY) && mv $(KEY) .$(KEY)
 	cp ~/.ssh/id_rsa.pub phraseless_rsa2.pub
 
 help:
